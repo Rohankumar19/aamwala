@@ -1,0 +1,302 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String    @id @default(cuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  password  String
+  role      String    @default("CUSTOMER")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  orders       Order[]
+  addresses    Address[]
+  reviews      Review[]
+  preorders    Preorder[]
+  cart         CartItem[]
+  wishlists    Wishlist[]
+  supportTickets SupportTicket[]
+}
+
+
+
+model MangoVariety {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String   @unique
+  origin       String
+  region       String
+  description  String
+  tasteNote    String
+  sweetness    Int      // 0-100
+  aroma        Int      // 0-100
+  fiberLevel   Int      // 0-100
+  isGITagged   Boolean  @default(false)
+  season       String   // "June-July"
+  shelfLife    String   // "4–5 days"
+  packingType  String
+  bestFor      String
+  status       String @default("IN_SEASON")
+  isPreorder   Boolean  @default(false)
+  preorderDate DateTime?
+  isActive     Boolean  @default(true)
+  createdAt    DateTime @default(now())
+
+  images       ProductImage[]
+  priceVariants PriceVariant[]
+  inventory    Inventory?
+  orderItems   OrderItem[]
+  reviews      Review[]
+  cartItems    CartItem[]
+  wishlists    Wishlist[]
+  preorders    Preorder[]
+
+  @@index([slug])
+  @@index([status])
+}
+
+
+
+model ProductImage {
+  id        String   @id @default(cuid())
+  url       String
+  alt       String?
+  order     Int      @default(0)
+  productId String
+
+  product   MangoVariety @relation(fields:[productId],references:[id])
+}
+
+model PriceVariant {
+  id        String @id @default(cuid())
+  weight    Int    // kg: 3, 5, 10
+  price     Int    // INR in paise for precision
+  productId String
+
+  product   MangoVariety @relation(fields:[productId],references:[id])
+  cartItems CartItem[]
+  orderItems OrderItem[]
+}
+
+model Inventory {
+  id          String   @id @default(cuid())
+  productId   String   @unique
+  totalStock  Int      @default(0) // kg
+  available   Int      @default(0) // kg
+  reserved    Int      @default(0) // kg (preorders)
+  packed      Int      @default(0) // kg
+  harvestDate DateTime?
+  updatedAt   DateTime @updatedAt
+
+  product     MangoVariety @relation(fields:[productId],references:[id])
+}
+
+model Address {
+  id          String @id @default(cuid())
+  userId      String
+  name        String
+  phone       String
+  line1       String
+  line2       String?
+  city        String
+  state       String
+  pincode     String
+  isDefault   Boolean @default(false)
+
+  user        User    @relation(fields:[userId],references:[id])
+  orders      Order[]
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  addressId   String
+  status      String @default("PENDING")
+  subtotal    Int         // paise
+  shipping    Int         @default(70000) // ₹700 in paise
+  discount    Int         @default(0)
+  total       Int
+  giftMessage String?
+  couponCode  String?
+  isPreorder  Boolean     @default(false)
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  user        User        @relation(fields:[userId],references:[id])
+  address     Address     @relation(fields:[addressId],references:[id])
+  items       OrderItem[]
+  payment     Payment?
+  shipment    Shipment?
+
+  @@index([userId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+
+
+model OrderItem {
+  id          String @id @default(cuid())
+  orderId     String
+  productId   String
+  variantId   String
+  quantity    Int
+  unitPrice   Int    // paise
+  weight      Int    // kg
+
+  order       Order        @relation(fields:[orderId],references:[id])
+  product     MangoVariety @relation(fields:[productId],references:[id])
+  variant     PriceVariant @relation(fields:[variantId],references:[id])
+}
+
+model Payment {
+  id                String        @id @default(cuid())
+  orderId           String        @unique
+  razorpayOrderId   String        @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  status            String @default("PENDING")
+  amount            Int           // paise
+  currency          String        @default("INR")
+  method            String?       // upi, card, netbanking
+  createdAt         DateTime      @default(now())
+
+  order             Order         @relation(fields:[orderId],references:[id])
+}
+
+
+
+model Shipment {
+  id           String   @id @default(cuid())
+  orderId      String   @unique
+  courier      String?
+  trackingId   String?
+  dispatchedAt DateTime?
+  deliveredAt  DateTime?
+  estimatedAt  DateTime?
+
+  order        Order    @relation(fields:[orderId],references:[id])
+}
+
+model CartItem {
+  id        String @id @default(cuid())
+  userId    String
+  productId String
+  variantId String
+  quantity  Int
+
+  user      User         @relation(fields:[userId],references:[id])
+  product   MangoVariety @relation(fields:[productId],references:[id])
+  variant   PriceVariant @relation(fields:[variantId],references:[id])
+
+  @@unique([userId, productId, variantId])
+}
+
+model Preorder {
+  id           String   @id @default(cuid())
+  userId       String
+  productId    String
+  variantId    String
+  quantity     Int
+  advancePaid  Int      @default(0) // paise
+  status       String   @default("PENDING") // PENDING, CONFIRMED, SHIPPED, CANCELLED
+  expectedDate DateTime?
+  createdAt    DateTime @default(now())
+
+  user         User         @relation(fields:[userId],references:[id])
+  product      MangoVariety @relation(fields:[productId],references:[id])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  rating    Int      // 1-5
+  title     String?
+  body      String
+  imageUrls String // photo reviews (comma separated)
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User         @relation(fields:[userId],references:[id])
+  product   MangoVariety @relation(fields:[productId],references:[id])
+}
+
+model Coupon {
+  id          String   @id @default(cuid())
+  code        String   @unique
+  type        String   // PERCENT, FIXED
+  value       Int      // percent or paise
+  minOrder    Int      @default(0)
+  maxUses     Int?
+  usedCount   Int      @default(0)
+  expiresAt   DateTime?
+  isActive    Boolean  @default(true)
+}
+
+model Wishlist {
+  id        String @id @default(cuid())
+  userId    String
+  productId String
+
+  user      User         @relation(fields:[userId],references:[id])
+  product   MangoVariety @relation(fields:[productId],references:[id])
+
+  @@unique([userId, productId])
+}
+
+model CustomerEnquiry {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  quantity  String
+  varieties String
+  purpose   String
+  message   String?
+  status    String   @default("NEW")
+  createdAt DateTime @default(now())
+}
+
+model SupportTicket {
+  id        String   @id @default(cuid())
+  userId    String?
+  orderId   String?
+  subject   String
+  message   String
+  imageUrls String
+  status    String   @default("OPEN")
+  resolution String?
+  createdAt DateTime @default(now())
+
+  user      User?    @relation(fields:[userId],references:[id])
+}
+
+model FAQEntry {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  order    Int    @default(0)
+  isActive Boolean @default(true)
+}
+
+model Banner {
+  id       String @id @default(cuid())
+  title    String
+  subtitle String?
+  imageUrl String
+  ctaText  String?
+  ctaLink  String?
+  position String  @default("HERO") // HERO, SEASONAL, PRODUCT
+  isActive Boolean @default(true)
+  order    Int     @default(0)
+}

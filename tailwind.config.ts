@@ -9,8 +9,31 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "var(--cream)",
+        foreground: "var(--dark)",
+        green: {
+          DEFAULT: "var(--green)",
+          2: "var(--green2)",
+          3: "var(--green3)",
+        },
+        yellow: {
+          DEFAULT: "var(--yellow)",
+          2: "var(--yellow2)",
+          3: "var(--yellow3)",
+        },
+        orange: "var(--orange)",
+        cream: "var(--cream)",
+        dark: "var(--dark)",
+        muted: "var(--muted)",
+        border: "var(--border)",
+      },
+      fontFamily: {
+        sans: ["var(--font-dm-sans)", "sans-serif"],
+        serif: ["var(--font-playfair)", "serif"],
+      },
+      boxShadow: {
+        DEFAULT: "var(--shadow)",
+        2: "var(--shadow2)",
       },
     },
   },

@@ -3,25 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --green: #1a5c2a;
+  --green2: #2d7a3a;
+  --green3: #e8f5eb;
+  --yellow: #f5a623;
+  --yellow2: #fef3dc;
+  --yellow3: #fff8ed;
+  --orange: #e07b2a;
+  --cream: #faf8f3;
+  --dark: #1a1a1a;
+  --muted: #6b7280;
+  --border: #e5e7eb;
+  --shadow: 0 4px 20px rgba(0,0,0,0.08);
+  --shadow2: 0 8px 32px rgba(0,0,0,0.12);
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--cream);
+  color: var(--dark);
+  overflow-x: hidden;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .hero-lazy {
+    animation: hero-lazy-in 0.8s ease forwards;
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .hero-lazy-1 {
+    animation-delay: 0.35s;
+  }
+
+  .hero-lazy-2 {
+    animation-delay: 0.65s;
+  }
+
+  .hero-lazy-3 {
+    animation-delay: 0.95s;
+  }
+
+  .hero-lazy-4 {
+    animation-delay: 1.25s;
+  }
+}
+
+@keyframes hero-lazy-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
