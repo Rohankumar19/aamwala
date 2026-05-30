@@ -1,19 +1,19 @@
 import type { Metadata } from "next";
-import { Playfair_Display, DM_Sans } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-const playfair = Playfair_Display({ 
-  subsets: ["latin"],
-  variable: '--font-playfair',
-  weight: ['400', '600', '700']
+const displayFont = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-playfair",
+  weight: "100 900",
 });
 
-const dmSans = DM_Sans({
-  subsets: ["latin"],
-  variable: '--font-dm-sans',
-  weight: ['400', '500', '600', '700']
+const sansFont = localFont({
+  src: "./fonts/GeistVF.woff",
+  variable: "--font-dm-sans",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${playfair.variable} ${dmSans.variable} font-sans antialiased bg-cream text-dark`}
+        className={`${displayFont.variable} ${sansFont.variable} font-sans antialiased bg-cream text-dark`}
       >
         <Navbar />
         <main className="min-h-screen">
