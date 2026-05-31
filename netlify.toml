@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Opt out of secrets scanning for CLOUDINARY_CLOUD_NAME.
+  # This value ("aamwala") is a public Cloudinary cloud identifier — not a
+  # sensitive secret. It appears in webpack source-map identifiers because the
+  # Next.js project name matches the cloud name, causing false positives.
+  SECRETS_SCAN_OMIT_KEYS = "CLOUDINARY_CLOUD_NAME"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
