@@ -8,6 +8,9 @@
   # sensitive secret. It appears in webpack source-map identifiers because the
   # Next.js project name matches the cloud name, causing false positives.
   SECRETS_SCAN_OMIT_KEYS = "CLOUDINARY_CLOUD_NAME"
+  
+  # Ignore false positives inside the malika.png binary image file
+  SECRETS_SCAN_OMIT_PATHS = "public/malika.png"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
