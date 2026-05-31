@@ -3,11 +3,15 @@
 import { useState } from "react"
 import { useCart } from "@/hooks/useCart"
 import { useRazorpay } from "@/hooks/useRazorpay"
+import { useRouter } from "next/navigation"
 
 export default function CheckoutPage() {
   const [step, setStep] = useState(1)
+  const [paymentMethod, setPaymentMethod] = useState<'upi' | 'razorpay'>('upi')
+  const [utr, setUtr] = useState('')
   const { items, total } = useCart()
   const { initPayment } = useRazorpay()
+  const router = useRouter()
   const deliveryFee = 700
   
   const handleProceed = () => {
@@ -18,8 +22,19 @@ export default function CheckoutPage() {
     if (items.length === 0) return alert("Your cart is empty")
     const payableAmount = total + deliveryFee * 100
 
-    // Use actual user details from form if available, hardcoded for mock
-    initPayment("order_mock_" + Date.now(), payableAmount, { name: "SNS Javik Farm Customer", email: "samarthafarm@gmail.com", phone: "9334742670" })
+    if (paymentMethod === 'upi') {
+      if (!utr.trim()) {
+        alert("⚠️ Please enter your UTR / Transaction ID after paying")
+        return
+      }
+      alert("Thanks! We will verify and confirm your order shortly.")
+      // In a real app, save the order with UTR to DB here
+      // For now, redirect to home or a success page
+      router.push("/")
+    } else {
+      // Use actual user details from form if available, hardcoded for mock
+      initPayment("order_mock_" + Date.now(), payableAmount, { name: "SNS Jaivik Farm Customer", email: "hello@snsjaivik.in", phone: "9999900001" })
+    }
   }
 
   return (
@@ -45,7 +60,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-dark uppercase tracking-wide">Phone</label>
-                  <input type="text" placeholder="+91 93347 42670" className="border border-border rounded-lg px-3 py-2 text-sm focus:border-green outline-none" />
+                  <input type="text" placeholder="+91 99999 00001" className="border border-border rounded-lg px-3 py-2 text-sm focus:border-green outline-none" />
                 </div>
               </div>
               
@@ -76,15 +91,21 @@ export default function CheckoutPage() {
               <h3 className="font-serif text-lg mb-6">💳 Payment Method</h3>
               
               <div className="grid grid-cols-2 gap-3 mb-6">
-                <div className="border-2 border-green bg-green-3 text-green rounded-xl p-4 text-center cursor-pointer transition-colors">
+                <div 
+                  onClick={() => setPaymentMethod('upi')}
+                  className={`border-2 rounded-xl p-4 text-center cursor-pointer transition-colors ${paymentMethod === 'upi' ? 'border-green bg-green-3 text-green' : 'border-border text-muted hover:border-green hover:text-green'}`}
+                >
                   <strong className="block text-2xl mb-1">📱</strong>
                   UPI<br/>
-                  <span className="text-xs text-green/80">GPay, PhonePe, Paytm</span>
+                  <span className="text-xs opacity-80">GPay, PhonePe, Paytm</span>
                 </div>
-                <div className="border-2 border-border rounded-xl p-4 text-center cursor-pointer hover:border-green hover:text-green transition-colors text-muted">
+                <div 
+                  onClick={() => setPaymentMethod('razorpay')}
+                  className={`border-2 rounded-xl p-4 text-center cursor-pointer transition-colors ${paymentMethod === 'razorpay' ? 'border-green bg-green-3 text-green' : 'border-border text-muted hover:border-green hover:text-green'}`}
+                >
                   <strong className="block text-2xl mb-1">💳</strong>
-                  Cards<br/>
-                  <span className="text-xs">Debit & Credit</span>
+                  Cards & Net Banking<br/>
+                  <span className="text-xs opacity-80">Razorpay</span>
                 </div>
               </div>
               
@@ -92,8 +113,42 @@ export default function CheckoutPage() {
                 🔒 Payments secured by <strong>Razorpay</strong> — PCI DSS compliant. Your card details are never stored on our servers.
               </div>
 
-              <button onClick={handlePlaceOrder} className="w-full bg-green text-white rounded-full py-3 font-semibold hover:bg-green-2 transition-colors">
-                🔒 Pay & Place Order
+              {paymentMethod === 'upi' && (
+                <div className="mb-6">
+                  <div className="bg-gradient-to-br from-green-3 to-green-100 rounded-2xl p-6 border-2 border-dashed border-green/30 text-center mb-5">
+                    <div className="text-4xl mb-2">📲</div>
+                    <div className="font-serif text-lg font-bold text-green mb-1">Scan QR Code to Pay</div>
+                    <div className="text-xs text-muted mb-4">Use any UPI app — GPay, PhonePe, Paytm, BHIM</div>
+                    <img 
+                      src="/upi_qr.jpeg" 
+                      alt="SNS Jaivik Farm UPI QR Code" 
+                      className="w-[160px] h-[160px] object-contain rounded-xl border-4 border-white shadow-md mx-auto mb-3"
+                    />
+                    <div className="bg-white border border-border rounded-lg px-4 py-2 text-sm font-bold text-green inline-block">
+                      UPI: bihartimeswebsite@okicici
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-1 mb-4">
+                    <label className="text-xs font-semibold text-dark uppercase tracking-wide">Enter UTR / Transaction ID</label>
+                    <input 
+                      type="text" 
+                      placeholder="e.g. 123456789012 (from your UPI app)" 
+                      value={utr}
+                      onChange={(e) => setUtr(e.target.value)}
+                      className="border-2 border-border rounded-xl px-4 py-3 text-sm focus:border-green outline-none transition-colors w-full font-sans" 
+                    />
+                    <div className="text-[0.73rem] text-muted mt-1">💡 Find the UTR number in your UPI app under transaction history</div>
+                  </div>
+                  
+                  <div className="bg-green-3 rounded-xl px-4 py-3 text-[0.8rem] text-green mb-5">
+                    ✅ After paying, enter your UTR number above and click Confirm Order. We will verify & confirm within 30 minutes.
+                  </div>
+                </div>
+              )}
+
+              <button onClick={handlePlaceOrder} className="w-full bg-green text-white rounded-full py-3 font-semibold hover:bg-green-2 transition-colors shadow-sm">
+                {paymentMethod === 'upi' ? '✅ I Have Paid — Confirm Order' : '🔒 Pay & Place Order'}
               </button>
             </div>
           )}
