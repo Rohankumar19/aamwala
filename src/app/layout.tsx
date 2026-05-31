@@ -17,7 +17,7 @@ const sansFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "SNS Javik Farm | Farm Fresh Mangoes",
+  title: "SNS Jaivik Farm | Farm Fresh Mangoes",
   description: "Natural, handpicked mangoes direct from our orchard.",
 };
 

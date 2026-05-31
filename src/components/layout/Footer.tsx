@@ -7,9 +7,9 @@ export default function Footer() {
     <footer className="bg-dark text-white/70 pt-12 pb-6 mt-16 rounded-t-3xl px-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1200px] mx-auto mb-8">
         <div className="md:col-span-2">
-          <h4 className="text-white font-serif text-xl mb-3">SNS Javik Farm</h4>
+          <h4 className="text-white font-serif text-xl mb-3">SNS Jaivik Farm</h4>
           <p className="text-sm">
-            SNS Javik Farm, Samartha, Samastipur, Bihar.
+            SNS Jaivik Farm, Samartha, Samastipur, Bihar.
           </p>
           <Link href={farmMapUrl} className="mt-3 inline-flex text-sm text-yellow hover:underline" target="_blank" rel="noreferrer">
             View farm on Google Maps
@@ -38,7 +38,7 @@ export default function Footer() {
       </div>
       
       <div className="text-center text-xs pt-6 mt-6 border-t border-white/10">
-        &copy; {new Date().getFullYear()} SNS Javik Farm. All rights reserved.
+        &copy; {new Date().getFullYear()} SNS Jaivik Farm. All rights reserved.
       </div>
     </footer>
   )

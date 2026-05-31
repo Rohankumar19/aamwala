@@ -14,14 +14,14 @@ export default function Navbar() {
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/brand/logo.jpeg"
-            alt="SNS Javik Farm logo"
+            alt="SNS Jaivik Farm logo"
             width={44}
             height={44}
             className="h-11 w-11 rounded-full object-cover"
             priority
           />
           <span className="font-serif text-xl font-bold text-green tracking-tight">
-            SNS <span className="text-yellow">Javik Farm</span>
+            SNS <span className="text-yellow">Jaivik Farm</span>
           </span>
         </Link>
         

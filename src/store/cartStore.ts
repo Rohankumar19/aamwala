@@ -54,7 +54,7 @@ export const useCartStore = create<CartState>()(
       getTotal: () => get().items.reduce((total, item) => total + (item.price * item.quantity), 0),
     }),
     {
-      name: 'aamwala-cart',
+      name: 'sns-jaivik-cart',
     }
   )
 )

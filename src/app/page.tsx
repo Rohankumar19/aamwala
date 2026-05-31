@@ -27,10 +27,10 @@ export default function Home() {
           <h1 className="hero-lazy hero-lazy-2 text-4xl md:text-5xl lg:text-[3.5rem] text-white leading-[1.08] mb-5 font-bold font-serif">
             Pure Mangoes,<br />
             <em className="text-yellow not-italic">Directly from</em><br />
-            Our Orchard.
+            Our Orchard
           </h1>
           <p className="hero-lazy hero-lazy-3 text-white/85 text-lg leading-relaxed mb-8 font-light">
-            Handpicked at peak ripeness from our 40-acre family orchard in Bihar&apos;s mango belt. No middlemen. No cold storage. Just the real taste of summer.
+            Handpicked at peak ripeness from our family orchard in Bihar&apos;s mango belt. No chemicals. No middlemen. No cold storage. Just the real taste of summer
           </p>
           <div className="hero-lazy hero-lazy-4 flex flex-wrap gap-4 justify-center md:justify-start">
             <Link href="/shop" className="bg-yellow text-dark rounded-full px-8 py-3 text-sm font-semibold transition-all hover:bg-[#ffd15c] hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(245,166,35,0.4)]">
