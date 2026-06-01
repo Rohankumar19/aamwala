@@ -5,6 +5,10 @@ export async function POST(req: Request) {
   try {
     const { razorpayOrderId, razorpayPaymentId, razorpaySignature, orderId } = await req.json()
 
+    if (!razorpayOrderId || !razorpayPaymentId || !razorpaySignature) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    }
+
     if (!process.env.RAZORPAY_KEY_SECRET) {
       return NextResponse.json({ error: "Razorpay secret is missing. Add it to .env.local and restart the dev server." }, { status: 500 })
     }

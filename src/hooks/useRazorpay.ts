@@ -72,12 +72,17 @@ export function useRazorpay() {
         },
         modal: {
           ondismiss: () => { 
-            console.log("Payment cancelled") 
+            alert("Payment was cancelled. Please try again.") 
           }
         }
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const rzp = new (window as any).Razorpay(options)
+      
+      rzp.on('payment.failed', function (response: any) {
+        alert(`Payment failed: ${response.error.description}`)
+      });
+
       rzp.open()
     } catch (err: unknown) {
       console.error("Payment initialization failed", err)
