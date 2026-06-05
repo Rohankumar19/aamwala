@@ -18,8 +18,8 @@ function OrderConfirmContent() {
   }, [clearCart])
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-16 bg-gradient-to-b from-green-3/30 via-cream to-cream">
-      <div className="max-w-[550px] w-full bg-white rounded-3xl border border-border/80 shadow-2xl p-8 md:p-10 text-center relative overflow-hidden backdrop-blur-md">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 py-10 sm:py-16 bg-gradient-to-b from-green-3/30 via-cream to-cream">
+      <div className="max-w-[550px] w-full bg-white rounded-2xl sm:rounded-3xl border border-border/80 shadow-2xl p-5 sm:p-8 md:p-10 text-center relative overflow-hidden backdrop-blur-md">
         
         {/* Decorative background gradients */}
         <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-green to-yellow" />
@@ -35,7 +35,7 @@ function OrderConfirmContent() {
               transition={{ type: "spring", damping: 15, stiffness: 100, delay: 0.1 }}
               className="bg-green-3 text-green rounded-full p-4 relative z-10 border border-green/10"
             >
-              <CheckCircle2 className="w-16 h-16 stroke-[1.5]" />
+              <CheckCircle2 className="w-12 h-12 sm:w-16 sm:h-16 stroke-[1.5]" />
             </motion.div>
             <motion.div
               initial={{ scale: 0.8, opacity: 0 }}
@@ -71,11 +71,11 @@ function OrderConfirmContent() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.4, delay: 0.4 }}
-          className="bg-cream/60 border border-border rounded-2xl p-5 mb-8 text-left"
+          className="bg-cream/60 border border-border rounded-2xl p-4 sm:p-5 mb-8 text-left"
         >
-          <div className="flex justify-between items-center pb-3 border-b border-border/60 mb-3">
+          <div className="flex flex-col gap-2 pb-3 border-b border-border/60 mb-3 sm:flex-row sm:items-center sm:justify-between">
             <span className="text-xs font-semibold text-muted uppercase tracking-wider">Order ID</span>
-            <span className="text-sm font-mono font-bold text-green bg-white border border-green/10 px-3 py-1 rounded-lg shadow-sm">
+            <span className="text-sm font-mono font-bold text-green bg-white border border-green/10 px-3 py-1 rounded-lg shadow-sm break-all">
               {orderId}
             </span>
           </div>

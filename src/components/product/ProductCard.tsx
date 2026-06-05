@@ -39,8 +39,8 @@ export default function ProductCard({ product }: { product: Product }) {
     : 0;
 
   return (
-    <Link href={`/shop/${product.slug}`} className="bg-white rounded-[20px] overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-2 relative group block">
-      <div className="bg-yellow-3 h-[200px] flex items-center justify-center text-5xl relative">
+    <Link href={`/shop/${product.slug}`} className="bg-white rounded-2xl overflow-hidden border border-border transition-all duration-300 hover:-translate-y-1 hover:shadow-2 relative group block">
+      <div className="bg-yellow-3 h-[190px] sm:h-[200px] flex items-center justify-center text-5xl relative">
         {badge}
         {product.imageUrl ? (
           <Image src={product.imageUrl} alt={product.name} fill className="object-cover" />
@@ -72,11 +72,11 @@ export default function ProductCard({ product }: { product: Product }) {
           ))}
         </div>
 
-        <div className="flex items-center justify-between mt-4">
+        <div className="flex items-center justify-between gap-3 mt-4">
           <div className="text-[1.1rem] font-bold text-green">
             ₹{startingPrice} <span className="text-[0.75rem] font-normal text-muted">onwards</span>
           </div>
-          <button className="bg-green text-white rounded-full px-4 py-2 text-[0.82rem] font-semibold transition-all hover:bg-green-2 hover:scale-105 active:scale-95">
+          <button className="shrink-0 bg-green text-white rounded-full px-4 py-2 text-[0.82rem] font-semibold transition-all hover:bg-green-2 hover:scale-105 active:scale-95">
             Add
           </button>
         </div>

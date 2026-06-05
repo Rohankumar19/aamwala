@@ -180,9 +180,9 @@ const faqs = [
 
 export default function FAQPage() {
   return (
-    <div className="max-w-[800px] mx-auto px-8 py-16">
+    <div className="max-w-[800px] mx-auto px-4 py-10 sm:px-8 sm:py-16">
       <div className="text-center mb-12">
-        <h1 className="font-serif text-4xl text-dark mb-4">Frequently Asked Questions</h1>
+        <h1 className="font-serif text-3xl text-dark mb-4 sm:text-4xl">Frequently Asked Questions</h1>
         <p className="text-muted">Everything you need to know about our mangoes, shipping, and policies.</p>
       </div>
 
@@ -193,7 +193,7 @@ export default function FAQPage() {
             <div className="space-y-4">
               {section.questions.map((item, qIdx) => (
                 <details key={qIdx} className="group bg-white border border-border rounded-2xl overflow-hidden [&_summary::-webkit-details-marker]:hidden">
-                  <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-5 text-dark font-medium hover:bg-green-3/30 transition-colors">
+                  <summary className="flex cursor-pointer items-center justify-between gap-3 p-4 text-dark font-medium hover:bg-green-3/30 transition-colors sm:p-5">
                     {item.q}
                     <span className="shrink-0 rounded-full bg-green-3 p-1.5 text-green sm:p-2">
                       <svg xmlns="http://www.w3.org/2000/svg" className="size-4 shrink-0 transition duration-300 group-open:-rotate-45" viewBox="0 0 20 20" fill="currentColor">
@@ -211,15 +211,15 @@ export default function FAQPage() {
         ))}
       </div>
 
-      <div className="mt-16 bg-cream rounded-3xl p-8 border border-border text-center">
+      <div className="mt-12 bg-cream rounded-2xl p-5 border border-border text-center sm:mt-16 sm:rounded-3xl sm:p-8">
         <h3 className="font-serif text-xl mb-4">Quick Policy Links</h3>
         <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
           <Link href="/terms" className="text-green hover:underline">Terms of Service</Link>
-          <span className="text-muted/30">|</span>
+          <span className="hidden text-muted/30 sm:inline">|</span>
           <Link href="/privacy" className="text-green hover:underline">Privacy Policy</Link>
-          <span className="text-muted/30">|</span>
+          <span className="hidden text-muted/30 sm:inline">|</span>
           <Link href="/refund" className="text-green hover:underline">Refund Policy</Link>
-          <span className="text-muted/30">|</span>
+          <span className="hidden text-muted/30 sm:inline">|</span>
           <Link href="/shipping" className="text-green hover:underline">Shipping Policy</Link>
         </div>
       </div>

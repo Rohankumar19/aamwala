@@ -4,7 +4,7 @@ const farmMapUrl = "https://www.google.com/maps/place/Suresh+Nandan+Sinha's+Farm
 
 export default function Footer() {
   return (
-    <footer className="bg-dark text-white/70 pt-12 pb-6 mt-16 rounded-t-3xl px-8">
+    <footer className="bg-dark text-white/70 pt-10 pb-6 mt-12 rounded-t-3xl px-4 sm:px-8 sm:pt-12 sm:mt-16">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-[1200px] mx-auto mb-8">
         <div className="md:col-span-2">
           <h4 className="text-white font-serif text-xl mb-3">SNS Jaivik Farm</h4>

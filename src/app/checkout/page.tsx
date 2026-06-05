@@ -87,23 +87,23 @@ export default function CheckoutPage() {
     }`
 
   return (
-    <div className="max-w-[800px] mx-auto px-8 py-12">
-      <h2 className="font-serif text-3xl mb-8">Checkout</h2>
+    <div className="max-w-[800px] mx-auto px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+      <h2 className="font-serif text-3xl mb-6 sm:mb-8">Checkout</h2>
 
       <div className="flex gap-0 mb-8 border-b border-border">
-        <div className={`flex-1 text-center py-3 text-sm font-medium border-b-2 ${step >= 1 ? "border-green text-green" : "border-transparent text-muted"}`}>1. Address</div>
-        <div className={`flex-1 text-center py-3 text-sm font-medium border-b-2 ${step >= 2 ? "border-green text-green" : "border-transparent text-muted"}`}>2. Payment</div>
-        <div className="flex-1 text-center py-3 text-sm font-medium border-b-2 border-transparent text-muted">3. Confirm</div>
+        <div className={`flex-1 text-center py-3 text-xs font-medium border-b-2 sm:text-sm ${step >= 1 ? "border-green text-green" : "border-transparent text-muted"}`}>1. Address</div>
+        <div className={`flex-1 text-center py-3 text-xs font-medium border-b-2 sm:text-sm ${step >= 2 ? "border-green text-green" : "border-transparent text-muted"}`}>2. Payment</div>
+        <div className="flex-1 text-center py-3 text-xs font-medium border-b-2 border-transparent text-muted sm:text-sm">3. Confirm</div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-[1fr_340px] gap-8">
         <div>
           {step === 1 && (
-            <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+            <div className="bg-white rounded-2xl border border-border p-4 mb-4 sm:p-6">
               <h3 className="font-serif text-lg mb-6">🏠 Delivery Address</h3>
 
               {/* Row 1: Full Name + Phone */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2">
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-dark uppercase tracking-wide">
                     Full Name <span className="text-red-400">*</span>
@@ -154,7 +154,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Row 3: City + State + Pincode */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-1 gap-4 mb-6 sm:grid-cols-3">
                 <div className="flex flex-col gap-1">
                   <label className="text-xs font-semibold text-dark uppercase tracking-wide">
                     City <span className="text-red-400">*</span>
@@ -212,11 +212,11 @@ export default function CheckoutPage() {
           )}
 
           {step === 2 && (
-            <div className="bg-white rounded-2xl border border-border p-6 mb-4">
+            <div className="bg-white rounded-2xl border border-border p-4 mb-4 sm:p-6">
               <h3 className="font-serif text-lg mb-4">💳 Payment Method</h3>
 
-              <div className="bg-green-3 border border-green/10 rounded-2xl p-5 mb-6">
-                <div className="flex items-center gap-3 mb-3">
+              <div className="bg-green-3 border border-green/10 rounded-2xl p-4 mb-6 sm:p-5">
+                <div className="flex items-start gap-3 mb-3">
                   <div className="bg-green text-white rounded-full p-1.5 text-xs">🔒</div>
                   <div>
                     <h4 className="text-sm font-semibold text-green">Secure Payment via Razorpay</h4>
@@ -236,13 +236,13 @@ export default function CheckoutPage() {
         </div>
 
         <div>
-          <div className="bg-white rounded-2xl border border-border p-6 sticky top-24">
+          <div className="bg-white rounded-2xl border border-border p-5 sm:p-6 md:sticky md:top-24">
             <h3 className="font-serif text-lg mb-4">Order Summary</h3>
 
             <div className="space-y-3 mb-4">
               {items.map(item => (
                 <div key={item.variantId} className="flex justify-between text-sm">
-                  <span className="text-muted">{item.quantity}x {item.name} ({item.weight}kg)</span>
+                  <span className="text-muted min-w-0 pr-3">{item.quantity}x {item.name} ({item.weight}kg)</span>
                   <span className="font-medium text-dark">₹{(item.price * item.quantity) / 100}</span>
                 </div>
               ))}
