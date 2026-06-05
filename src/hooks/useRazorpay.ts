@@ -1,15 +1,84 @@
 import { useRouter } from "next/navigation"
 
+// ─── Razorpay Window Types ──────────────────────────────────────────
+interface RazorpayOptions {
+  key: string
+  amount: number
+  currency: string
+  name: string
+  description: string
+  image: string
+  order_id: string
+  prefill: { name: string; email: string; contact: string }
+  theme: { color: string }
+  handler: (response: RazorpaySuccessResponse) => void
+  modal: { ondismiss: () => void }
+}
+
+interface RazorpaySuccessResponse {
+  razorpay_order_id: string
+  razorpay_payment_id: string
+  razorpay_signature: string
+}
+
+interface RazorpayPaymentFailedResponse {
+  error: {
+    code: string
+    description: string
+    source: string
+    step: string
+    reason: string
+  }
+}
+
+interface RazorpayOrderData {
+  address: {
+    fullName: string
+    phone: string
+    addressLine: string
+    city: string
+    state: string
+    pincode: string
+  }
+  items: Array<{
+    productId: string
+    variantId: string
+    name: string
+    price: number
+    weight: number
+    quantity: number
+    imageUrl?: string
+  }>
+  subtotal: number
+  shipping: number
+}
+
+interface RazorpayInstance {
+  open: () => void
+  on: (event: string, handler: (response: RazorpayPaymentFailedResponse) => void) => void
+}
+
+declare global {
+  interface Window {
+    Razorpay: new (options: RazorpayOptions) => RazorpayInstance
+  }
+}
+
 export function useRazorpay() {
   const router = useRouter()
 
-  const initPayment = async (orderId: string, amount: number, user: { name: string, email: string, phone?: string }) => {
+  const initPayment = async (
+    orderId: string,
+    amount: number,
+    user: { name: string, email: string, phone?: string },
+    orderData?: RazorpayOrderData
+  ) => {
     try {
       // 1. Create Razorpay order on backend
       const res = await fetch("/api/payment/create-order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ orderId, amount })
+        body: JSON.stringify({ orderId, amount, ...orderData })
       })
       const order = await res.json()
 
@@ -37,11 +106,11 @@ export function useRazorpay() {
       }
 
       // 3. Open payment modal
-      const options = {
+      const options: RazorpayOptions = {
         key: keyId,
         amount: razorpayAmount,
         currency,
-        name: "SNS Javik Farm",
+        name: "SNS Jaivik Farm",
         description: "Fresh Mango Order",
         image: "/brand/logo.jpeg",
         order_id: razorpayOrderId,
@@ -51,7 +120,7 @@ export function useRazorpay() {
           contact: user.phone || "" 
         },
         theme: { color: "#1a5c2a" }, // Farm green
-        handler: async (response: Record<string, string>) => {
+        handler: async (response: RazorpaySuccessResponse) => {
           // 4. Verify on backend
           const verify = await fetch("/api/payment/verify", {
             method: "POST",
@@ -76,12 +145,11 @@ export function useRazorpay() {
           }
         }
       }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const rzp = new (window as any).Razorpay(options)
+      const rzp = new window.Razorpay(options)
       
-      rzp.on('payment.failed', function (response: any) {
+      rzp.on("payment.failed", (response: RazorpayPaymentFailedResponse) => {
         alert(`Payment failed: ${response.error.description}`)
-      });
+      })
 
       rzp.open()
     } catch (err: unknown) {

@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -171,6 +171,36 @@ model Payment {
   createdAt         DateTime      @default(now())
 
   order             Order         @relation(fields:[orderId],references:[id])
+}
+
+model GuestOrder {
+  id                String   @id @default(cuid())
+  orderId           String   @unique
+  razorpayOrderId   String   @unique
+  razorpayPaymentId String?
+  razorpaySignature String?
+  status            String   @default("PENDING")
+  paymentStatus     String   @default("PENDING")
+  paymentMethod     String?
+  customerName      String
+  customerPhone     String
+  customerEmail     String?
+  addressLine       String
+  city              String
+  state             String
+  pincode           String
+  items             Json
+  subtotal          Int
+  shipping          Int
+  total             Int
+  currency          String   @default("INR")
+  paidAt            DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([status])
+  @@index([paymentStatus])
+  @@index([createdAt])
 }
 
 
