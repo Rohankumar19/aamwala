@@ -32,7 +32,7 @@ export default function CartPage() {
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
         <div>
           {items.map(item => (
-            <div key={item.variantId} className="flex flex-col gap-4 p-4 bg-white rounded-2xl border border-border mb-4 sm:flex-row sm:items-center sm:p-5">
+            <div key={`${item.productId}-${item.variantId}`} className="flex flex-col gap-4 p-4 bg-white rounded-2xl border border-border mb-4 sm:flex-row sm:items-center sm:p-5">
               <div className="bg-yellow-3 rounded-xl w-full h-24 flex items-center justify-center text-3xl shrink-0 sm:h-20 sm:w-20">
                 🥭
               </div>
@@ -42,14 +42,14 @@ export default function CartPage() {
                 <div className="flex items-center gap-4 mt-2">
                   <div className="flex items-center border border-border rounded-full overflow-hidden">
                     <button 
-                      onClick={() => updateQuantity(item.variantId, Math.max(1, item.quantity - 1))}
+                      onClick={() => updateQuantity(item.productId, item.variantId, Math.max(1, item.quantity - 1))}
                       className="px-3 py-1 hover:bg-green-3 text-dark transition-colors"
                     >
                       <Minus size={14} />
                     </button>
                     <span className="px-2 text-sm font-semibold w-8 text-center">{item.quantity}</span>
                     <button 
-                      onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.productId, item.variantId, item.quantity + 1)}
                       className="px-3 py-1 hover:bg-green-3 text-dark transition-colors"
                     >
                       <Plus size={14} />
@@ -60,7 +60,7 @@ export default function CartPage() {
               <div className="flex items-center justify-between gap-4 sm:block sm:text-right">
                 <div className="font-bold text-green text-lg mb-2">₹{(item.price * item.quantity) / 100}</div>
                 <button 
-                  onClick={() => removeItem(item.variantId)}
+                  onClick={() => removeItem(item.productId, item.variantId)}
                   className="text-red-500 hover:text-red-700 text-sm flex items-center gap-1 justify-end sm:ml-auto"
                 >
                   <Trash2 size={14} />
