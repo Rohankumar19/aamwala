@@ -141,7 +141,7 @@ export const products: MangoProduct[] = [
     origin: "Samartha, Samastipur",
     imageUrl: "/dusheri.png",
     tasteNote: "Exquisite taste and pleasant aroma with sweet and firm fiberless flesh.",
-    status: "IN_SEASON",
+    status: "SOLD_OUT",
     sweetness: 88,
     aroma: 92,
     fiberLevel: 4,

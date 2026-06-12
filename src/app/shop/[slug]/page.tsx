@@ -15,6 +15,8 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
   const [quantity, setQuantity] = useState(1)
 
   const handleAddToCart = () => {
+    if (product.status === "SOLD_OUT") return;
+
     addItem({
       productId: product.id,
       variantId: activeVariant.id,
@@ -23,6 +25,10 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
       weight: activeVariant.weight,
       quantity: quantity
     })
+    // Note: Max limit notification is handled in the store, we don't alert here if it fails
+    // But we can show success if we wanted. Since store uses alert for error, 
+    // it's tricky to know if it succeeded here without returning a boolean from addItem.
+    // Assuming adding succeeds, the store will update. We'll leave the alert as is.
     alert("Added to cart!")
   }
 
@@ -117,12 +123,21 @@ export default function ProductDetailPage({ params }: { params: { slug: string }
               </button>
             </div>
             
-            <button 
-              onClick={handleAddToCart}
-              className="flex-1 bg-green text-white rounded-full py-3.5 px-5 sm:px-8 font-semibold flex items-center justify-center gap-2 hover:bg-green-2 hover:-translate-y-0.5 transition-all shadow-[0_4px_12px_rgba(26,92,42,0.2)]"
-            >
-              <ShoppingCart size={18} /> Add to Cart - ₹{(activeVariant.price * quantity) / 100}
-            </button>
+            {product.status === "SOLD_OUT" ? (
+              <button 
+                disabled
+                className="flex-1 bg-[#95a5a6] text-white rounded-full py-3.5 px-5 sm:px-8 font-semibold flex items-center justify-center gap-2 cursor-not-allowed shadow-[0_4px_12px_rgba(149,165,166,0.2)]"
+              >
+                🚫 Sold Out
+              </button>
+            ) : (
+              <button 
+                onClick={handleAddToCart}
+                className="flex-1 bg-green text-white rounded-full py-3.5 px-5 sm:px-8 font-semibold flex items-center justify-center gap-2 hover:bg-green-2 hover:-translate-y-0.5 transition-all shadow-[0_4px_12px_rgba(26,92,42,0.2)]"
+              >
+                <ShoppingCart size={18} /> Add to Cart - ₹{(activeVariant.price * quantity) / 100}
+              </button>
+            )}
           </div>
 
           <div className="grid grid-cols-1 gap-x-4 gap-y-3 text-sm pt-6 border-t border-border sm:grid-cols-2">

@@ -76,9 +76,18 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="text-[1.1rem] font-bold text-green">
             ₹{startingPrice} <span className="text-[0.75rem] font-normal text-muted">onwards</span>
           </div>
-          <button className="shrink-0 bg-green text-white rounded-full px-4 py-2 text-[0.82rem] font-semibold transition-all hover:bg-green-2 hover:scale-105 active:scale-95">
-            Add
-          </button>
+          {product.status === "SOLD_OUT" ? (
+            <button 
+              disabled
+              className="shrink-0 bg-[#95a5a6] text-white rounded-full px-4 py-2 text-[0.82rem] font-semibold cursor-not-allowed"
+            >
+              Sold Out
+            </button>
+          ) : (
+            <button className="shrink-0 bg-green text-white rounded-full px-4 py-2 text-[0.82rem] font-semibold transition-all hover:bg-green-2 hover:scale-105 active:scale-95">
+              Add
+            </button>
+          )}
         </div>
       </div>
     </Link>

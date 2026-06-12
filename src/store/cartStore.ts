@@ -26,6 +26,13 @@ export const useCartStore = create<CartState>()(
       items: [],
       addItem: (item) => {
         const items = get().items;
+        
+        const currentTotalWeight = items.reduce((total, i) => total + (i.weight * i.quantity), 0);
+        if (currentTotalWeight + (item.weight * item.quantity) > 10) {
+          if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per address!');
+          return;
+        }
+
         const existingItem = items.find(
           (i) => i.productId === item.productId && i.variantId === item.variantId
         );
@@ -50,8 +57,23 @@ export const useCartStore = create<CartState>()(
         });
       },
       updateQuantity: (productId, variantId, quantity) => {
+        const items = get().items;
+        const currentItem = items.find((i) => i.productId === productId && i.variantId === variantId);
+        
+        if (currentItem) {
+          const otherItemsWeight = items.reduce((total, i) => {
+            if (i.productId === productId && i.variantId === variantId) return total;
+            return total + (i.weight * i.quantity);
+          }, 0);
+          
+          if (otherItemsWeight + (currentItem.weight * quantity) > 10) {
+            if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per address!');
+            return;
+          }
+        }
+
         set({
-          items: get().items.map((i) => 
+          items: items.map((i) => 
             i.productId === productId && i.variantId === variantId 
               ? { ...i, quantity } 
               : i
