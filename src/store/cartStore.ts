@@ -29,7 +29,7 @@ export const useCartStore = create<CartState>()(
         
         const currentTotalWeight = items.reduce((total, i) => total + (i.weight * i.quantity), 0);
         if (currentTotalWeight + (item.weight * item.quantity) > 10) {
-          if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per address!');
+          if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per order!');
           return;
         }
 
@@ -67,7 +67,7 @@ export const useCartStore = create<CartState>()(
           }, 0);
           
           if (otherItemsWeight + (currentItem.weight * quantity) > 10) {
-            if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per address!');
+            if (typeof window !== 'undefined') alert('⚠️ Maximum 10kg allowed per order!');
             return;
           }
         }
