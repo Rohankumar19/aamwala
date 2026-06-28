@@ -42,7 +42,7 @@ export const products: MangoProduct[] = [
     origin: "Samartha, Samastipur",
     imageUrl: "/Dudhiya_maldah.jpg",
     tasteNote: "The 'Milky Malda' offers exceptional juiciness with a completely fiberless, creamy texture and sweet flavor.",
-    status: "IN_SEASON",
+    status: "SOLD_OUT",
     sweetness: 92,
     aroma: 85,
     fiberLevel: 2,
@@ -141,7 +141,7 @@ export const products: MangoProduct[] = [
     origin: "Samartha, Samastipur",
     imageUrl: "/dusheri.png",
     tasteNote: "Exquisite taste and pleasant aroma with sweet and firm fiberless flesh.",
-    status: "IN_SEASON",
+    status: "SOLD_OUT",
     sweetness: 88,
     aroma: 92,
     fiberLevel: 4,
@@ -161,5 +161,33 @@ export const products: MangoProduct[] = [
 **Potassium**: Helps maintain electrolyte balance
 
 *Note: Dushehri is highly prized for its exceptionally sweet and fragrant profile.*`
+  },
+  {
+    id: "5",
+    name: "Chausa",
+    slug: "chausa",
+    origin: "Samartha, Samastipur",
+    imageUrl: "/chausa.jpg",
+    tasteNote: "Exceptionally sweet and juicy with a rich aroma.",
+    status: "IN_SEASON",
+    sweetness: 95,
+    aroma: 90,
+    fiberLevel: 2,
+    isGITagged: false,
+    season: "July-August",
+    shelfLife: "4-6 days",
+    packingType: "Carton Box",
+    bestFor: "Eating fresh, Juicing",
+    priceVariants: defaultPriceVariants,
+    nutritionInfo: `**Calories**: Approximately 60 calories
+**Carbohydrates**: About 15g, primarily from natural sugars
+**Dietary Fiber**: Roughly 1.6g
+**Protein**: Approximately 0.8g
+**Fat**: Minimal
+**Vitamin C**: Good source for immune health
+**Vitamin A**: Important for vision and skin
+**Potassium**: Helps maintain electrolyte balance
+
+*Note: Chausa is famous for its exceptional sweetness and rich aroma.*`
   }
 ]
