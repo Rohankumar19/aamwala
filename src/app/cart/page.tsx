@@ -38,7 +38,7 @@ export default function CartPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <h4 className="font-serif text-lg font-bold">{item.name}</h4>
-                <p className="text-sm text-muted mb-1">{item.weight} kg Box</p>
+                <p className="text-sm text-muted mb-1">{item.label || `${item.weight} kg Box`}</p>
                 <div className="flex items-center gap-4 mt-2">
                   <div className="flex items-center border border-border rounded-full overflow-hidden">
                     <button 

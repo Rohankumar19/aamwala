@@ -242,7 +242,7 @@ export default function CheckoutPage() {
             <div className="space-y-3 mb-4">
               {items.map(item => (
                 <div key={item.variantId} className="flex justify-between text-sm">
-                  <span className="text-muted min-w-0 pr-3">{item.quantity}x {item.name} ({item.weight}kg)</span>
+                  <span className="text-muted min-w-0 pr-3">{item.quantity}x {item.name} ({item.label || item.weight + "kg"})</span>
                   <span className="font-medium text-dark">₹{(item.price * item.quantity) / 100}</span>
                 </div>
               ))}

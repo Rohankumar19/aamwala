@@ -9,6 +9,7 @@ export interface CartItemType {
   weight: number;
   quantity: number;
   imageUrl?: string;
+  label?: string;
 }
 
 interface CartState {

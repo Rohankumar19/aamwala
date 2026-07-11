@@ -67,7 +67,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="flex gap-1.5 mb-3 flex-wrap">
           {product.priceVariants.map((v) => (
             <span key={v.id} className="bg-green-3 text-green rounded-full px-2.5 py-1 text-[0.72rem] font-medium">
-              {v.grade ? `${v.grade} ` : ""}{v.weight}kg
+              {v.label || (v.grade ? `${v.grade} ` + v.weight + "kg" : v.weight + "kg")}
             </span>
           ))}
         </div>
