@@ -6,6 +6,7 @@ interface PriceVariant {
   weight: number
   price: number
   grade?: "Grade A" | "Grade B"
+  label?: string
 }
 
 interface Product {
